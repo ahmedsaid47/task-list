@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
+use App\Models;
 
 
 
@@ -66,24 +67,17 @@ Route::get('/', function (){
 
 Route::get('/tasks', function () use ($tasks) {
     return view('index', [
-        'tasks' => $tasks
+        'tasks' => Models\Task::latest()->get()
     ]);
 })->name('tasks.index');
 
 
 
-Route::get('/tasks/{id}', function ($id) use ($tasks) {
-    $task = collect($tasks)->firstWhere('id', $id);
+Route::get('/tasks/{id}', function ($id) {
 
-    if(!$task){
-        abort(Response::HTTP_NOT_FOUND);
-    }
-
-    return view('show', ['task'=>$task]);
+    return view('show', ['task'=> Models\Task::findOrFail($id)]);
 
 })->name('tasks.show');
-
-
 
 Route::fallback(function () {
     return 'Still got somewhere!';
