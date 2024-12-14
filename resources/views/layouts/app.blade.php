@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>laravel 10 task list app</title>
+    @yield('styles')
 </head>
 <body>
 
@@ -13,7 +14,12 @@
 
 
     <div>
-    @yield('content')
+        @if(session()->has('success'))
+            <div>
+                {{ session('success') }}
+            </div>
+        @endif
+        @yield('content')
     </div>
 
 
